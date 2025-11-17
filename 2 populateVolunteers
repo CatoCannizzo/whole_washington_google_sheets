@@ -1,5 +1,11 @@
 function fillPage(countyName) {
-  populate_volunteers(countyName);
+  populateVolunteers(countyName);
+}
+
+function all(){
+  const lookupTable = buildLookupTable();
+  const counties = Object.keys(lookupTable);
+  counties.forEach((county) => fillPage(county));
 }
 
 function adams(){
