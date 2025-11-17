@@ -1,0 +1,17 @@
+function createSheets() {
+  const currentFile = SpreadsheetApp.getActiveSpreadsheet();
+  const counties = Object.keys(buildLookupTable());
+  counties.forEach((county) => {
+
+    Logger.log('Prepping ' + county + ' sheet');
+
+    if (!currentFile.getSheetByName(county)){
+      currentFile.insertSheet(county);
+    }
+
+    let currentSheet = currentFile.getSheetByName(county);
+    currentSheet.clearContents();
+    currentSheet.appendRow(['zip', 'volunteer_id', 'first_name', 'last_name', 'email', 'phone_number', 'city', 'tags', 'click to add notes']);
+
+  });
+}
