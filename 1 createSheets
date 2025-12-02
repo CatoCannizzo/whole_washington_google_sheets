@@ -1,5 +1,7 @@
 function createSheets() {
   const currentFile = SpreadsheetApp.getActiveSpreadsheet();
+
+  // One sheet per County
   const counties = Object.keys(buildLookupTable());
   counties.forEach((county) => {
 
@@ -14,4 +16,48 @@ function createSheets() {
     currentSheet.appendRow(['zip', 'volunteer_id', 'first_name', 'last_name', 'email', 'phone_number', 'city', 'tags', 'click to add notes']);
 
   });
+
+  // Tag related sheets
+  createTagSheet();
+  createTaggingSheet();
+  createConsolidatedTagsSheet();
+}
+
+function createTagSheet(){
+  const currentFile = SpreadsheetApp.getActiveSpreadsheet();
+  Logger.log('Prepping tag lookup sheet');
+
+  if (!currentFile.getSheetByName('Tag Lookup')) {
+    currentFile.insertSheet('Tag Lookup');
+  }
+
+  let currentSheet = currentFile.getSheetByName('Tag Lookup');
+  currentSheet.clearContents();
+  currentSheet.appendRow(['tag_id', 'tag_name']);
+}
+
+function createTaggingSheet(){
+  const currentFile = SpreadsheetApp.getActiveSpreadsheet();
+  Logger.log('Prepping tagging lookup sheet');
+
+  if (!currentFile.getSheetByName('Tagging Lookup')) {
+    currentFile.insertSheet('Tagging Lookup');
+  }
+
+  let currentSheet = currentFile.getSheetByName('Tagging Lookup');
+  currentSheet.clearContents();
+  currentSheet.appendRow(['tag_id', 'tag_name', 'volunteer_id']);
+}
+
+function createConsolidatedTagsSheet(){
+  const currentFile = SpreadsheetApp.getActiveSpreadsheet();
+  Logger.log('Prepping consolidated tagging sheet');
+
+  if (!currentFile.getSheetByName('Consolidated Tags')) {
+    currentFile.insertSheet('Consolidated Tags');
+  }
+
+  let currentSheet = currentFile.getSheetByName('Consolidated Tags');
+  currentSheet.clearContents();
+  currentSheet.appendRow(['volunteer_id', 'tags']);
 }
