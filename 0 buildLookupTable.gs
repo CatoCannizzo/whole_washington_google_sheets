@@ -2,8 +2,6 @@ function buildLookupTable(){
 
   // Grab Sheet
   // Credits: https://www.unitedstateszipcodes.org/zip-code-database/
-  // County Lookup sheet needs to have two columns: zip and county
-  // The zip column needs to be sorted in ascending order
   const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet (bound to this script)
   const sheet = ss.getSheetByName('County Lookup'); //The name of the sheet tab where you are sending the info
   const range = sheet.getDataRange();
@@ -25,6 +23,43 @@ function buildLookupTable(){
     lookupTable[county] = zips;
 
   }
-  //Logger.log(lookupTable);
+
   return lookupTable;
+}
+
+function buildTagLookupTable(){
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet (bound to this script)
+  const sheet = ss.getSheetByName('Tag Lookup'); //The name of the sheet tab where you are sending the info
+  const range = sheet.getDataRange();
+  const values = range.getValues();
+  let lookupTable = {}
+
+  // Create dictionary {tag_id: tag_name, tag_id2: tag_name}
+  for (let i = 1; i < values.length; i++) {
+    
+    let tag_id = values[i][0];
+    let tag_name = values[i][1];
+    lookupTable[tag_id] = tag_name;
+
+  }
+
+  return lookupTable;
+}
+
+function buildConsolidatedTagTable(){
+  const ss = SpreadsheetApp.getActiveSpreadsheet(); //get active spreadsheet (bound to this script)
+  const sheet = ss.getSheetByName('Consolidated Tags'); //The name of the sheet tab where you are sending the info
+  const range = sheet.getDataRange();
+  const values = range.getValues();
+  let outputDict = {}
+
+  // Skipping header row, hence i=1 instead of i=0
+  for (let i = 1; i < values.length; i++) {
+    let volunteer_id = values[i][0];
+    let tags = values[i][1];
+    outputDict[volunteer_id] = tags;
+  }
+
+  return outputDict;
 }
