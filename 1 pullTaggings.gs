@@ -1,3 +1,5 @@
+// Deleted as of 12.06.2025
+
 // As of 12.01.2025 - Typically takes four runs to finish populating the entire sheet
 function pullTaggings() {
 
