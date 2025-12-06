@@ -1,0 +1,28 @@
+function updateFormats() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  //once for each county
+  const lookupTable = buildLookupTable();
+  const counties = Object.keys(lookupTable);
+  
+  counties.forEach((county) => {
+    sheet = ss.getSheetByName(county);
+    const rows = sheet.getLastRow();
+    const columns = sheet.getLastColumn();
+    let headers = sheet.getRange(1, 1, 1, columns); // getRange(row, column, numRows, numColumns)
+    headers = headers.getValues()[0];
+    const phone_column = headers.indexOf('phone_number');
+    let phone_numbers = sheet.getRange(2, phone_column+1, rows-1);
+    phone_numbers = phone_numbers.getValues();
+    for (i=0; i<phone_numbers.length; i++) {
+      let num = phone_numbers[i];
+      let cell = sheet.getRange(i+2, phone_column+1);
+      let digits = Math.floor(Math.log10(num));
+      if (digits == 9) {
+        cell.setNumberFormat('(###)" "###"-"####');
+      } else if (digits == 10) {
+        cell.setNumberFormat('+# (###)" "###"-"####');
+      }
+    }
+  })
+};
