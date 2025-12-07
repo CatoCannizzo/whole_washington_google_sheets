@@ -1,5 +1,11 @@
 function createSheets() {
   const currentFile = SpreadsheetApp.getActiveSpreadsheet();
+  buildCountyLookup();
+
+    // Tag related sheets
+  createTagSheet();
+  createTaggingSheet();
+  createConsolidatedTagsSheet();
 
   // One sheet per County
   const counties = Object.keys(buildLookupTable());
@@ -16,11 +22,6 @@ function createSheets() {
     currentSheet.appendRow(['zip', 'volunteer_id', 'first_name', 'last_name', 'email', 'phone_number', 'city', 'tags', 'click to add notes']);
 
   });
-
-  // Tag related sheets
-  createTagSheet();
-  createTaggingSheet();
-  createConsolidatedTagsSheet();
 }
 
 function createTagSheet(){
